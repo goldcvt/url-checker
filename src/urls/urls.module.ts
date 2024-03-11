@@ -12,8 +12,15 @@ import { CheckerModule } from 'src/checker/checker.module.js';
 import { ResolveModule } from 'src/resolve/resolve.module.js';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UrlEntity } from './entities/url.entity.js';
+import { UrlsRepository } from './urls.repository.js';
+import { CheckAllUrlsUsecase } from './handles/check-all-urls/check-all-urls.usecase.js';
 
-const usecaseProviders = [AddUrlUsecase, GetAllUrlsUsecase, DeleteUrlUsecase];
+const usecaseProviders = [
+  AddUrlUsecase,
+  GetAllUrlsUsecase,
+  DeleteUrlUsecase,
+  CheckAllUrlsUsecase,
+];
 
 @Module({
   imports: [
@@ -22,6 +29,11 @@ const usecaseProviders = [AddUrlUsecase, GetAllUrlsUsecase, DeleteUrlUsecase];
     TypeOrmModule.forFeature([UrlEntity]),
   ],
   controllers: [AddUrlController, GetAllUrlsController, DeleteUrlController],
-  providers: [UrlsService, UrlsDomainFactory, ...usecaseProviders],
+  providers: [
+    UrlsService,
+    UrlsDomainFactory,
+    UrlsRepository,
+    ...usecaseProviders,
+  ],
 })
 export class UrlsModule {}

@@ -1,21 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UrlEntity } from '../../entities/url.entity.js';
-import { Repository } from 'typeorm';
 import { UrlMapper } from '../../urls.mapper.js';
+import { UrlsRepository } from '../../urls.repository.js';
 
 @Injectable()
 export class GetAllUrlsUsecase {
-  constructor(
-    @InjectRepository(UrlEntity)
-    private readonly urlRepo: Repository<UrlEntity>,
-  ) {}
+  constructor(private readonly urlRepo: UrlsRepository) {}
 
   async execute() {
-    const rawResults = await this.urlRepo
-      .createQueryBuilder()
-      .select('*')
-      .getRawMany();
+    const rawResults = await this.urlRepo.getAll();
     return rawResults.map((raw) => UrlMapper.rawToPlain(raw));
   }
 }

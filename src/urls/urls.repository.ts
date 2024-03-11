@@ -1,59 +1,44 @@
-import { IUrlRepository, UrlDomainModel } from './urls.types.js';
+import { IUrlRepository, UrlPlain } from './urls.types.js';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UrlEntity } from './entities/url.entity.js';
-import { URLS_DATA_SOURCE_TOKEN } from './urls.constants.js';
+import { RawUrl, UrlEntity } from './entities/url.entity.js';
 import { Repository } from 'typeorm';
-import { UrlsMapper } from './urls.mapper.js';
 
 export class UrlsRepository implements IUrlRepository {
   constructor(
-    @InjectRepository(UrlEntity, URLS_DATA_SOURCE_TOKEN)
+    @InjectRepository(UrlEntity)
     private readonly urlRepo: Repository<UrlEntity>,
   ) {}
 
-  public async saveCheckResults(
-    urlModel: Omit<UrlDomainModel, 'id'>,
-  ): Promise<UrlDomainModel> {
-    const { schema, lastCheckedAt, lastResolvedAs, address } = urlModel;
-    return await this.dataSource.transaction(async (em) => {
-      const insertRes = await em
-        .createQueryBuilder()
-        .insert()
-        .into(UrlEntity)
-        .values([{ schema, lastCheckedAt, lastResolvedAs, address }])
-        .returning('*')
-        .execute();
-      const urlDomainModel = UrlsMapper.toUnmarshalled(insertRes.raw.at(0));
-      await this.cacheService.set(
-        urlDomainModel.address,
-        JSON.stringify(urlDomainModel),
-      );
-      return urlDomainModel;
-    });
-  }
-
-  async updateCheckResultsAndCache(
+  async updateCheckResults(
     urlPartialModel: Pick<
-      UrlDomainModel,
-      'id' | 'lastCheckedAt' | 'lastResolvedAs'
+      UrlPlain,
+      'id' | 'lastCheckedAt' | 'lastResolvedIp' | 'lastCheckStatus'
     >,
   ): Promise<void> {
-    await this.dataSource.transaction(async (em) => {
-      const updateRes = await em
-        .createQueryBuilder()
-        .update<UrlEntity>(UrlEntity)
-        .set({
-          lastCheckedAt: urlPartialModel.lastCheckedAt,
-          lastResolvedAs: urlPartialModel.lastResolvedAs,
-        })
-        .where('id = :urlId', { urlId: urlPartialModel.id })
-        .returning('*')
-        .execute();
-      const domainModel = UrlsMapper.toUnmarshalled(updateRes.raw.at(0));
-      await this.cacheService.set(
-        domainModel.address,
-        JSON.stringify(domainModel),
-      );
-    });
+    const setProperties: Partial<UrlEntity> = {};
+    if (urlPartialModel.lastCheckedAt) {
+      setProperties.lastCheckedAt = urlPartialModel.lastCheckedAt;
+    }
+    if (urlPartialModel.lastResolvedIp) {
+      setProperties.lastResolvedIp = urlPartialModel.lastResolvedIp;
+    }
+    if (urlPartialModel.lastCheckStatus) {
+      setProperties.lastCheckStatus = urlPartialModel.lastCheckStatus;
+    }
+
+    await this.urlRepo
+      .createQueryBuilder()
+      .update<UrlEntity>(UrlEntity)
+      .set(setProperties)
+      .where('id = :urlId', { urlId: urlPartialModel.id })
+      .returning('*')
+      .execute();
+  }
+
+  async getAll(): Promise<RawUrl[]> {
+    // Could've used cursor, but why when you could just
+    // scale the workers and each would get dedicated batch
+    // from a dispatcher service
+    return this.urlRepo.createQueryBuilder().select('*').getRawMany();
   }
 }

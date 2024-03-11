@@ -12,18 +12,19 @@ export class UrlsService {
   ) {}
 
   async checkUrl(raw: RawUrl): Promise<{
-    lastCheckedAt: Date | undefined;
-    lastCheckCode: number | undefined;
+    lastCheckedAt: Date | null;
+    lastCheckStatus: number | null;
     lastResolvedIp: string;
   }> {
     const urlDomainModel = this.urlDomainFactory.fromRaw(raw);
     const checkResults =
       await this.checkerService.getResultsFromChecks(urlDomainModel);
     return {
-      lastCheckCode: checkResults.statusCodeCheckResult.resultBody?.statusCode,
+      lastCheckStatus:
+        checkResults.statusCodeCheckResult.resultBody?.statusCode ?? null,
       lastCheckedAt: checkResults.statusCodeCheckResult.hasRun
         ? new Date()
-        : undefined,
+        : null,
       lastResolvedIp: urlDomainModel.ip,
     };
   }
