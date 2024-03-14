@@ -1,4 +1,4 @@
-import { Controller, Param, Delete } from '@nestjs/common';
+import { Controller, Param, Delete, HttpCode } from '@nestjs/common';
 
 import { DeleteUrlUsecase } from './delete-url.usecase.js';
 
@@ -7,7 +7,8 @@ export class DeleteUrlController {
   constructor(private readonly usecase: DeleteUrlUsecase) {}
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usecase.execute(+id);
+  @HttpCode(204)
+  async remove(@Param('id') id: string) {
+    await this.usecase.execute(+id);
   }
 }

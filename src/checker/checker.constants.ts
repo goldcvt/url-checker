@@ -1,1 +1,1 @@
-export const CHECKER_SERVICE_SOURCE_PROVIDER = Symbol('checker-service-source');
+export const HTTP_SERVICE_TOKEN = Symbol('http-service');

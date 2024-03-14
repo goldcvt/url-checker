@@ -1,21 +1,79 @@
+import { UrlDomainModel } from 'src/urls/urls.domain.js';
 import { CheckerService } from './checker.service';
-import { ICheckData } from './checks/checks.interfaces.js';
+import { IHttpService } from './http/http.interfaces.js';
+import { ChecksPipeline } from './checks/checks.pipeline.js';
+import { UrlsDomainFactory } from '../urls/urls.factory.js';
+import assert from 'assert';
+
+const mockHttpServiceFactory: (
+  urlToStatusMap: Record<string, number>,
+) => IHttpService = (urlToStatusMap: Record<string, number>) => ({
+  getData: async (dest: UrlDomainModel) => {
+    console.log(dest.lastResolvedUrl);
+    if (!(dest.lastResolvedUrl in urlToStatusMap)) {
+      return {
+        statusCode: 404,
+        decodedJsonBody: undefined,
+      };
+    }
+    return {
+      statusCode: urlToStatusMap[dest.lastResolvedUrl],
+      decodedJsonBody: undefined,
+    };
+  },
+});
+
+const checkerServiceFactory = (urlToStatusMap: Record<string, number>) => {
+  const service = new CheckerService(
+    mockHttpServiceFactory(urlToStatusMap),
+    new ChecksPipeline(),
+  );
+  service.onModuleInit();
+
+  return service;
+};
+
+const urlDomainModelFactory = new UrlsDomainFactory({
+  resolve: async (url: string) => {
+    const urlObj = new URL(url);
+    return { ip: urlObj.hostname };
+  },
+});
 
 describe('CheckerService', () => {
   describe('runChecksOnSourceData', () => {
-    it('', () => {
+    it('Can check domainUrl', async () => {
       // Arrange
-      const sourceData: ICheckData = {
-        // Provide the necessary properties for ICheckData object
-        decodedJsonBody: undefined,
-        statusCode: undefined,
+      const urlToStatusMap = {
+        'http://1.1.1.1:80': 302,
+        'https://121.1.2.3:443': 201,
       };
+      const checkService = checkerServiceFactory(urlToStatusMap);
+      const domainUrl = urlDomainModelFactory.fromPlain({
+        id: 1,
+        lastCheckedAt: null,
+        lastCheckStatus: null,
+        lastResolvedIp: '1.1.1.1',
+        url: 'http://1.1.1.1:80',
+      });
 
       // Act
-      // const result = runChecksOnSourceData(sourceData);
+      const checkResult = await checkService.getResultsFromChecks(domainUrl);
 
       // Assert
-      // Add your assertions here to verify the expected result
+      assert.deepStrictEqual(checkResult, {
+        statusCodeCheckResult: {
+          passed: false,
+          hasRun: true,
+          resultBody: {
+            statusCode: 302,
+          },
+        },
+        hasBodyCheckResult: {
+          hasRun: false,
+          passed: false,
+        },
+      });
     });
   });
 });

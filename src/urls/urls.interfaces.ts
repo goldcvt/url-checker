@@ -1,5 +1,3 @@
-import { RawUrl } from './entities/url.entity.js';
-
 export type UrlPlain = {
   id: number;
   lastCheckedAt: Date | null;
@@ -15,5 +13,8 @@ export interface IUrlRepository {
       'id' | 'lastCheckedAt' | 'lastResolvedIp' | 'lastCheckStatus'
     >,
   ) => Promise<void>;
-  getAll: () => Promise<RawUrl[]>;
+  getAll: () => Promise<UrlPlain[]>;
+  save: (
+    data: Pick<UrlPlain, 'url' | 'lastResolvedIp'> | Omit<UrlPlain, 'id'>,
+  ) => Promise<UrlPlain>;
 }

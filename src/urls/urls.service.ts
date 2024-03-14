@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
 import { UrlsDomainFactory } from './urls.factory.js';
-import { RawUrl } from './entities/url.entity.js';
 import { CheckerService } from '../checker/checker.service.js';
+import { UrlPlain } from './urls.interfaces.js';
 
 @Injectable()
 export class UrlsService {
@@ -11,12 +11,12 @@ export class UrlsService {
     private readonly checkerService: CheckerService,
   ) {}
 
-  async checkUrl(raw: RawUrl): Promise<{
+  async checkUrl(plain: UrlPlain): Promise<{
     lastCheckedAt: Date | null;
     lastCheckStatus: number | null;
     lastResolvedIp: string;
   }> {
-    const urlDomainModel = this.urlDomainFactory.fromRaw(raw);
+    const urlDomainModel = this.urlDomainFactory.fromPlain(plain);
     const checkResults =
       await this.checkerService.getResultsFromChecks(urlDomainModel);
     return {

@@ -4,12 +4,14 @@ import { ConfigModule, ConfigType } from '@nestjs/config';
 import { checkerConfig } from './checker/checker.config.js';
 import { urlsDbConfig } from './urls/urls.config.js';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
+import { appConfig } from './app.config.js';
 
 @Module({
   imports: [
     UrlsModule,
     ConfigModule.forRoot({
-      load: [checkerConfig, urlsDbConfig],
+      load: [checkerConfig, urlsDbConfig, appConfig],
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
@@ -27,6 +29,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       },
       inject: [urlsDbConfig.KEY],
     }),
+    ScheduleModule.forRoot(),
   ],
   controllers: [],
   providers: [],

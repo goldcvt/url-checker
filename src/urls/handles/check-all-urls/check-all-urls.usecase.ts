@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IUrlRepository } from '../../urls.types.js';
+import { IUrlRepository } from '../../urls.interfaces.js';
 import { UrlsRepository } from '../../urls.repository.js';
 import { UrlsService } from '../../urls.service.js';
 import { Cron } from '@nestjs/schedule';
@@ -13,10 +13,14 @@ export class CheckAllUrlsUsecase {
 
   @Cron('*/2 * * * *')
   async execute() {
-    const rawUrls = await this.repo.getAll();
-    for (const url of rawUrls) {
-      const checkRes = await this.urlService.checkUrl(url);
-      await this.repo.updateCheckResults({ ...checkRes, id: url.id });
-    }
+    const plainUrls = await this.repo.getAll();
+    // Could've used a something like p-defer OR bottleneck to
+    // limit the concurrency
+    await Promise.all(
+      plainUrls.map(async (url) => {
+        const checkRes = await this.urlService.checkUrl(url);
+        return this.repo.updateCheckResults({ ...checkRes, id: url.id });
+      }),
+    );
   }
 }

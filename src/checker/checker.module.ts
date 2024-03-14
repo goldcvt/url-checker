@@ -3,8 +3,9 @@ import { Module } from '@nestjs/common';
 import { checkerConfig } from './checker.config.js';
 import { ConfigType } from '@nestjs/config';
 import { CheckerService } from './checker.service.js';
-import { HttpGetCheckerSourceService } from './sources/sources.http-get.js';
-import { CHECKER_SERVICE_SOURCE_PROVIDER } from './checker.constants.js';
+import { HttpGetCheckerSourceService } from './http/http.service.js';
+import { HTTP_SERVICE_TOKEN } from './checker.constants.js';
+import { ChecksPipeline } from './checks/checks.pipeline.js';
 
 @Module({
   imports: [
@@ -20,10 +21,11 @@ import { CHECKER_SERVICE_SOURCE_PROVIDER } from './checker.constants.js';
   ],
   providers: [
     {
-      provide: CHECKER_SERVICE_SOURCE_PROVIDER,
+      provide: HTTP_SERVICE_TOKEN,
       useClass: HttpGetCheckerSourceService,
     },
     CheckerService,
+    ChecksPipeline,
   ],
   exports: [CheckerService],
 })

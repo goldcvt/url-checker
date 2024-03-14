@@ -1,5 +1,6 @@
+import { isIPv4 } from 'node:net';
 import { IResolverService } from '../resolve/resolve.interfaces.js';
-import { UrlPlain } from './urls.types.js';
+import { UrlPlain } from './urls.interfaces.js';
 import { getSchema, pickPort } from './urls.utils.js';
 
 export class UrlDomainModel {
@@ -14,7 +15,15 @@ export class UrlDomainModel {
     const urlObj = new URL(fields.url);
     this.schema = getSchema(urlObj.protocol);
     this.port = pickPort({ schema: this.schema, port: urlObj.port });
+    UrlDomainModel.assertIp(fields.lastResolvedIp);
     this.lastResolvedIp = fields.lastResolvedIp;
+  }
+
+  private static assertIp(ip: string) {
+    const isIp = isIPv4(ip);
+    if (!isIp) {
+      throw new Error('Resolved to not an IP!');
+    }
   }
 
   static create(
@@ -29,7 +38,7 @@ export class UrlDomainModel {
   }
 
   get lastResolvedUrl() {
-    return `${this.schema}//${this.lastResolvedIp}:${this.port}`;
+    return `${this.schema}://${this.lastResolvedIp}:${this.port}`;
   }
 
   async refreshResolvedIp() {

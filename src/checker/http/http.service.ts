@@ -1,13 +1,13 @@
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { ISourceFinalResult, ISourceService } from './sources.interfaces.js';
+import { IHttpResultData, IHttpService } from './http.interfaces.js';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { UrlDomainModel } from 'src/urls/urls.domain.js';
 import { checkerConfig } from '../checker.config.js';
 import { ConfigType } from '@nestjs/config';
 
 @Injectable()
-export class HttpGetCheckerSourceService implements ISourceService {
+export class HttpGetCheckerSourceService implements IHttpService {
   private readonly logger = new Logger(HttpGetCheckerSourceService.name);
   constructor(
     private readonly httpClient: HttpService,
@@ -33,7 +33,7 @@ export class HttpGetCheckerSourceService implements ISourceService {
     return firstValueFrom(this.httpClient.get(dest));
   }
 
-  async extractData(dest: UrlDomainModel): Promise<ISourceFinalResult> {
+  async getData(dest: UrlDomainModel): Promise<IHttpResultData> {
     // try to extract from lastly cached ip
     // could've used recursion, but this will do
     try {

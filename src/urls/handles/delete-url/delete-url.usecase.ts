@@ -11,6 +11,6 @@ export class DeleteUrlUsecase {
   ) {}
 
   async execute(id: number) {
-    return await this.urlRepo.delete(id);
+    await this.urlRepo.delete(id);
   }
 }

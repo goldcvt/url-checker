@@ -1,5 +1,5 @@
 import { RawUrl } from './entities/url.entity.js';
-import { UrlPlain } from './urls.types.js';
+import { UrlPlain } from './urls.interfaces.js';
 
 export class UrlMapper {
   static rawToPlain(raw: RawUrl): UrlPlain {

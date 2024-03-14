@@ -1,7 +1,8 @@
 import { registerAs } from '@nestjs/config';
 
+const URLS_DB_CONFIG_NAMESPACE = 'urls-database-config' as const;
 export const urlsDbConfig = registerAs(
-  'urls-database-config',
+  URLS_DB_CONFIG_NAMESPACE,
   () =>
     ({
       type: 'postgres',
