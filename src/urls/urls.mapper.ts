@@ -1,4 +1,4 @@
-import { RawUrl } from './entities/url.entity.js';
+import { RawUrl } from './db/entities/url.entity.js';
 import { UrlPlain } from './urls.interfaces.js';
 
 export class UrlMapper {

@@ -1,6 +1,6 @@
 import { IUrlRepository, UrlPlain } from './urls.interfaces.js';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RawUrl, UrlEntity } from './entities/url.entity.js';
+import { RawUrl, UrlEntity } from './db/entities/url.entity.js';
 import { Repository } from 'typeorm';
 import { UrlMapper } from './urls.mapper.js';
 

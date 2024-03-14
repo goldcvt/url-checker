@@ -1,4 +1,4 @@
-import { Check, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Check, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 const RawUrlFields = {
   id: 'id',
@@ -16,6 +16,9 @@ export type RawUrl = {
   [RawUrlFields.last_resolved_ip]: string;
 };
 
+@Entity({
+  name: 'urls',
+})
 export class UrlEntity {
   @PrimaryGeneratedColumn({
     type: 'bigint',

@@ -11,7 +11,7 @@ import { UrlsDomainFactory } from './urls.factory.js';
 import { CheckerModule } from '../checker/checker.module.js';
 import { ResolveModule } from '../resolve/resolve.module.js';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UrlEntity } from './entities/url.entity.js';
+import { UrlEntity } from './db/entities/url.entity.js';
 import { UrlsRepository } from './urls.repository.js';
 import { CheckAllUrlsUsecase } from './handles/check-all-urls/check-all-urls.usecase.js';
 

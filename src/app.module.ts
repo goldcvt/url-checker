@@ -2,10 +2,11 @@ import { Module } from '@nestjs/common';
 import { UrlsModule } from './urls/urls.module.js';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 import { checkerConfig } from './checker/checker.config.js';
-import { urlsDbConfig } from './urls/urls.config.js';
+import { urlsDbConfig } from './urls/db/db.config.js';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import { appConfig } from './app.config.js';
+import { urlsMigrations } from './urls/db/migrations/index.js';
 
 @Module({
   imports: [
@@ -24,6 +25,8 @@ import { appConfig } from './app.config.js';
           password: dbConfig.password,
           database: dbConfig.database,
           autoLoadEntities: true,
+          migrations: [...urlsMigrations],
+          migrationsRun: true,
           synchronize: false,
         };
       },
