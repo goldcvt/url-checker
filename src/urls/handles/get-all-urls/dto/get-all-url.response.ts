@@ -7,8 +7,10 @@ import {
 class GetAllUrlsRequired {
   @ApiResponseProperty({ type: Number })
   id: number;
+
   @ApiResponseProperty({ type: String })
   url: string;
+
   @ApiResponseProperty({ type: String })
   lastResolvedIp: string;
 }

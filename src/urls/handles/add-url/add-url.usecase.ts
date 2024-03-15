@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
+
+import { CreateUrlDto } from './dto/add-url.dto.js';
 import { RESOLVE_SERVICE_TOKEN } from '../../../resolve/resolve.constants.js';
 import { IResolverService } from '../../../resolve/resolve.interfaces.js';
-import { CreateUrlDto } from './dto/add-url.dto.js';
-import { UrlsRepository } from '../../urls.repository.js';
 import { IUrlRepository } from '../../urls.interfaces.js';
+import { UrlsRepository } from '../../urls.repository.js';
 
 @Injectable()
 export class AddUrlUsecase {

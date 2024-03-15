@@ -1,13 +1,13 @@
 import {
   Controller,
-  Param,
   Delete,
   HttpCode,
   HttpStatus,
+  Param,
 } from '@nestjs/common';
+import { ApiNoContentResponse, ApiTags } from '@nestjs/swagger';
 
 import { DeleteUrlUsecase } from './delete-url.usecase.js';
-import { ApiNoContentResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('urls')
 @Controller('urls')

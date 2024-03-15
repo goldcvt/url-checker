@@ -1,6 +1,7 @@
 import assert from 'node:assert';
-import { IResolverService } from '../resolve/resolve.interfaces.js';
+
 import { UrlDomainModel } from './urls.domain.js';
+import { IResolverService } from '../resolve/resolve.interfaces.js';
 
 const makeResolverServiceMock = (
   expectedResolvedIp: string,

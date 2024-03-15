@@ -1,5 +1,6 @@
 import assert from 'assert';
-import { pickPort, getSchema } from './urls.utils';
+
+import { getSchema, pickPort } from './urls.utils';
 
 describe('pickPort', () => {
   it('should return the correct port for http schema', () => {

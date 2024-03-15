@@ -1,6 +1,7 @@
 import { lookup } from 'node:dns';
-import { IResolveResult, IResolverService } from './resolve.interfaces.js';
 import { promisify } from 'node:util';
+
+import { IResolveResult, IResolverService } from './resolve.interfaces.js';
 
 export class ResolverService implements IResolverService {
   private readonly lookup = promisify(lookup);

@@ -1,10 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { UrlPlain } from './urls.interfaces.js';
+
 import { RawUrl } from './db/entities/url.entity.js';
 import { UrlDomainModel } from './urls.domain.js';
-import { IResolverService } from '../resolve/resolve.interfaces.js';
+import { UrlPlain } from './urls.interfaces.js';
 import { UrlMapper } from './urls.mapper.js';
 import { RESOLVE_SERVICE_TOKEN } from '../resolve/resolve.constants.js';
+import { IResolverService } from '../resolve/resolve.interfaces.js';
 
 @Injectable()
 export class UrlsDomainFactory {

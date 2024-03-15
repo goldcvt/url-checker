@@ -1,8 +1,9 @@
 import assert from 'node:assert';
+
 import { ICheckData } from './checks.interfaces.js';
 import { ChecksPipeline } from './checks.pipeline.js';
-import { statusCodeCheck } from './status-code/status-code.check.js';
 import { hasBodyCheck } from './has-body/has-body.check.js';
+import { statusCodeCheck } from './status-code/status-code.check.js';
 
 // order of checks shouldn't matter
 describe('ChecksPipeline', () => {

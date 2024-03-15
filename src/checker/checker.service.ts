@@ -1,10 +1,11 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { UrlDomainModel } from '../urls/urls.domain.js';
-import { ICheckData } from './checks/checks.interfaces.js';
-import { statusCodeCheck } from './checks/status-code/status-code.check.js';
+
 import { HTTP_SERVICE_TOKEN } from './checker.constants.js';
-import { IHttpService } from './http/http.interfaces.js';
+import { ICheckData } from './checks/checks.interfaces.js';
 import { ChecksPipeline } from './checks/checks.pipeline.js';
+import { statusCodeCheck } from './checks/status-code/status-code.check.js';
+import { IHttpService } from './http/http.interfaces.js';
+import { UrlDomainModel } from '../urls/urls.domain.js';
 
 @Injectable()
 export class CheckerService implements OnModuleInit {
@@ -28,7 +29,6 @@ export class CheckerService implements OnModuleInit {
 
   async getResultsFromChecks(urlDomainModel: UrlDomainModel) {
     const sourceData = await this.getSourceForChecks(urlDomainModel);
-    console.log(sourceData);
     return this.runChecksOnSourceData(sourceData);
   }
 }

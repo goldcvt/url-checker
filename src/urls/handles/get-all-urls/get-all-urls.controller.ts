@@ -1,9 +1,9 @@
 import { Controller, Get, Res } from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
-import { GetAllUrlsUsecase } from './get-all-urls.usecase.js';
 import { GetAllUrlResponse } from './dto/get-all-url.response.js';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { GetAllUrlsUsecase } from './get-all-urls.usecase.js';
 
 @ApiTags('urls')
 @Controller('urls')

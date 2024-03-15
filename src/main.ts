@@ -1,9 +1,9 @@
+import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 
-import { AppModule } from './app.module.js';
-import { ConfigService } from '@nestjs/config';
 import { APP_CONFIG_NAMESPACE } from './app.config.js';
-import { ValidationPipe } from '@nestjs/common';
+import { AppModule } from './app.module.js';
 import { useSwagger } from './app.utils.js';
 
 async function bootstrap() {

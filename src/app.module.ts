@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import { UrlsModule } from './urls/urls.module.js';
 import { ConfigModule, ConfigType } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { appConfig } from './app.config.js';
 import { checkerConfig } from './checker/checker.config.js';
 import { urlsDbConfig } from './urls/db/db.config.js';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ScheduleModule } from '@nestjs/schedule';
-import { appConfig } from './app.config.js';
 import { urlsMigrations } from './urls/db/migrations/index.js';
+import { UrlsModule } from './urls/urls.module.js';
 
 @Module({
   imports: [

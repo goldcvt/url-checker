@@ -1,6 +1,6 @@
-import { IsString, ValidationError } from 'class-validator';
-import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
+import { IsString, ValidationError } from 'class-validator';
 
 export class CreateUrlDto {
   @ApiProperty({

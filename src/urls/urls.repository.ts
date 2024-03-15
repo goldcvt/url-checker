@@ -1,7 +1,8 @@
-import { IUrlRepository, UrlPlain } from './urls.interfaces.js';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RawUrl, UrlEntity } from './db/entities/url.entity.js';
 import { Repository } from 'typeorm';
+
+import { RawUrl, UrlEntity } from './db/entities/url.entity.js';
+import { IUrlRepository, UrlPlain } from './urls.interfaces.js';
 import { UrlMapper } from './urls.mapper.js';
 
 export class UrlsRepository implements IUrlRepository {

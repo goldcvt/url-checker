@@ -1,6 +1,8 @@
-import { plainToInstance } from 'class-transformer';
-import { CreateUrlDto } from './add-url.dto.js';
 import assert from 'node:assert';
+
+import { plainToInstance } from 'class-transformer';
+
+import { CreateUrlDto } from './add-url.dto.js';
 
 describe('Create URL spec', () => {
   it('Valid URI/URL produces valid base URL', () => {

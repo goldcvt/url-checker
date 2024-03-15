@@ -1,12 +1,14 @@
+import { Agent } from 'https';
+
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { checkerConfig } from './checker.config.js';
 import { ConfigType } from '@nestjs/config';
-import { CheckerService } from './checker.service.js';
-import { HttpGetCheckerSourceService } from './http/http.service.js';
+
+import { checkerConfig } from './checker.config.js';
 import { HTTP_SERVICE_TOKEN } from './checker.constants.js';
+import { CheckerService } from './checker.service.js';
 import { ChecksPipeline } from './checks/checks.pipeline.js';
-import { Agent } from 'https';
+import { HttpGetCheckerSourceService } from './http/http.service.js';
 
 @Module({
   imports: [

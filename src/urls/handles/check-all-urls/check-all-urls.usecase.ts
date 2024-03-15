@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
+
 import { IUrlRepository } from '../../urls.interfaces.js';
 import { UrlsRepository } from '../../urls.repository.js';
 import { UrlsService } from '../../urls.service.js';
-import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class CheckAllUrlsUsecase {

@@ -1,7 +1,8 @@
 import { isIPv4 } from 'node:net';
-import { IResolverService } from '../resolve/resolve.interfaces.js';
+
 import { UrlPlain } from './urls.interfaces.js';
 import { getSchema, pickPort } from './urls.utils.js';
+import { IResolverService } from '../resolve/resolve.interfaces.js';
 
 export class UrlDomainModel {
   private port: number;

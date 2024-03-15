@@ -1,6 +1,7 @@
 import { ClassProvider, Module } from '@nestjs/common';
-import { ResolverService } from './resolve.service.js';
+
 import { RESOLVE_SERVICE_TOKEN } from './resolve.constants.js';
+import { ResolverService } from './resolve.service.js';
 
 const resolverProvider: ClassProvider<ResolverService> = {
   provide: RESOLVE_SERVICE_TOKEN,

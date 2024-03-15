@@ -1,4 +1,5 @@
 import assert from 'assert';
+
 import { ResolverService } from './resolve.service.js';
 
 describe('ResolverService', () => {

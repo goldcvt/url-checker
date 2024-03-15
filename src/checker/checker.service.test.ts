@@ -1,15 +1,15 @@
-import { UrlDomainModel } from 'src/urls/urls.domain.js';
-import { CheckerService } from './checker.service';
-import { IHttpService } from './http/http.interfaces.js';
-import { ChecksPipeline } from './checks/checks.pipeline.js';
-import { UrlsDomainFactory } from '../urls/urls.factory.js';
 import assert from 'assert';
+
+import { CheckerService } from './checker.service';
+import { ChecksPipeline } from './checks/checks.pipeline.js';
+import { IHttpService } from './http/http.interfaces.js';
+import { UrlDomainModel } from '../urls/urls.domain.js';
+import { UrlsDomainFactory } from '../urls/urls.factory.js';
 
 const mockHttpServiceFactory: (
   urlToStatusMap: Record<string, number>,
 ) => IHttpService = (urlToStatusMap: Record<string, number>) => ({
   getData: async (dest: UrlDomainModel) => {
-    console.log(dest.lastResolvedUrl);
     if (!(dest.lastResolvedUrl in urlToStatusMap)) {
       return {
         statusCode: 404,

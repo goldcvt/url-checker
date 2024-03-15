@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
 import { UrlsDomainFactory } from './urls.factory.js';
-import { CheckerService } from '../checker/checker.service.js';
 import { UrlPlain } from './urls.interfaces.js';
+import { CheckerService } from '../checker/checker.service.js';
 
 @Injectable()
 export class UrlsService {

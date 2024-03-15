@@ -1,10 +1,11 @@
 import { HttpService } from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
-import { IHttpResultData, IHttpService } from './http.interfaces.js';
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { UrlDomainModel } from 'src/urls/urls.domain.js';
-import { checkerConfig } from '../checker.config.js';
 import { ConfigType } from '@nestjs/config';
+import { firstValueFrom } from 'rxjs';
+
+import { IHttpResultData, IHttpService } from './http.interfaces.js';
+import { UrlDomainModel } from '../../urls/urls.domain.js';
+import { checkerConfig } from '../checker.config.js';
 
 @Injectable()
 export class HttpGetCheckerSourceService implements IHttpService {
