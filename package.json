@@ -15,8 +15,7 @@
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "mocha 'src/**/*.test.ts'",
-    "test:watch": "node --require ts-node/register --test --watch",
-    "prepare-sql-test-data": "node ./test-utils/prepare-sql-fixture.js"
+    "test:watch": "mocha --watch  'src/**/*.test.ts'"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.2",
@@ -26,6 +25,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/schedule": "^4.0.1",
+    "@nestjs/swagger": "^7.3.0",
     "@nestjs/typeorm": "^10.0.2",
     "axios": "^1.6.7",
     "cacheable-lookup": "^7.0.0",

@@ -3,6 +3,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import { ConfigService } from '@nestjs/config';
 import { APP_CONFIG_NAMESPACE } from './app.config.js';
+import { ValidationPipe } from '@nestjs/common';
+import { useSwagger } from './app.utils.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +13,14 @@ async function bootstrap() {
   const HTTP_PORT = configService.getOrThrow<number>(
     `${APP_CONFIG_NAMESPACE}.http.port`,
   );
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+  useSwagger(app);
   await app.listen(HTTP_PORT);
 }
 bootstrap();

@@ -6,6 +6,6 @@ export class GetAllUrlsUsecase {
   constructor(private readonly urlRepo: UrlsRepository) {}
 
   async execute() {
-    return await this.urlRepo.getAll();
+    return this.urlRepo.getAll();
   }
 }
