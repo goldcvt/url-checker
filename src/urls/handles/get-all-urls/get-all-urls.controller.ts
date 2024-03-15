@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
+import { Response } from 'express';
 
 import { GetAllUrlsUsecase } from './get-all-urls.usecase.js';
 import { GetAllUrlResponse } from './dto/get-all-url.response.js';
@@ -11,8 +12,13 @@ export class GetAllUrlsController {
 
   @ApiOkResponse({ type: GetAllUrlResponse, isArray: true })
   @Get()
-  async findAll() {
-    const res = await this.usecase.execute();
-    return res satisfies GetAllUrlResponse[];
+  async findAll(@Res() nestRes: Response) {
+    const urls = await this.usecase.execute();
+
+    // super basic caching since we'll refresh the
+    // data every 2 minutes
+    // it's not ideal, it's far from ideal, but it'll do
+    nestRes.set('Cache-Control', 'public, max-age=120');
+    return nestRes.json(urls satisfies GetAllUrlResponse[]);
   }
 }

@@ -18,7 +18,8 @@ export class AddUrlUsecase {
     url: string;
     lastResolvedIp: string;
   }> {
-    const { ip } = await this.resolverService.resolve(dto.url);
+    const hostname = new URL(dto.url).hostname;
+    const { ip } = await this.resolverService.resolve(hostname);
     const savedResult = await this.urlRepo.save({
       url: dto.url,
       lastResolvedIp: ip,

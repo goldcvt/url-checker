@@ -6,6 +6,7 @@ import { getSchema, pickPort } from './urls.utils.js';
 export class UrlDomainModel {
   private port: number;
   private schema: 'http' | 'https';
+  private baseUrl: string;
   private lastResolvedIp: string;
 
   private constructor(
@@ -15,6 +16,7 @@ export class UrlDomainModel {
     const urlObj = new URL(fields.url);
     this.schema = getSchema(urlObj.protocol);
     this.port = pickPort({ schema: this.schema, port: urlObj.port });
+    this.baseUrl = urlObj.hostname;
     UrlDomainModel.assertIp(fields.lastResolvedIp);
     this.lastResolvedIp = fields.lastResolvedIp;
   }
@@ -42,7 +44,7 @@ export class UrlDomainModel {
   }
 
   async refreshResolvedIp() {
-    const { ip } = await this.resolverService.resolve(this.fields.url);
+    const { ip } = await this.resolverService.resolve(this.baseUrl);
     this.lastResolvedIp = ip;
   }
 }
