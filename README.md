@@ -3,7 +3,7 @@
 I've used version 20 of Node.js
 If you have it,
 npm ci should do the trick
-If you don't, just use docker man
+If you don't, just use docker :)
 
 ## Tests
 
